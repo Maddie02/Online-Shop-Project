@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS user
 
 conn.cursor().execute('''
 CREATE TABLE IF NOT EXISTS ad
-    {   
+    ( 
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT NOT NULL,
         desctiption TEXT,
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS ad
         date TEXT,
         is_active INTEGER,
         owner TEXT
-    }
+    )
 ''')
 
 conn.commit()
