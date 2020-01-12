@@ -1,27 +1,32 @@
 import sqlite3 as sqlite
 
 
-DB_NAME = "example.db"
+DB_NAME = "users.db"
 
 conn = sqlite.connect(DB_NAME)
 
 conn.cursor().execute('''
-CREATE TABLE IF NOT EXISTS post
+CREATE TABLE IF NOT EXISTS user
     (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        title TEXT,
-        content TEXT
+        user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        email TEXT NOT NULL,
+        password TEXT NOT NULL, 
+        name TEXT NOT NULL,
+        address TEXT NOT NULL,
+        phone_number INTEGER
     )
 ''')
 
 conn.cursor().execute('''
-CREATE TABLE IF NOT EXISTS comment
+CREATE TABLE IF NOT EXISTS ad
     {   
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        content TEXT,
-        post_id INTEGER,
-        FOREIGN KEY(post_id) REFERENCES post(id)
-    
+        ad_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT NOT NULL,
+        desctiption TEXT,
+        price REAL,
+        date TEXT,
+        is_active INTEGER,
+        owner TEXT
     }
 ''')
 
