@@ -5,78 +5,63 @@ from flask import Flask
 from flask import request
 from flask import render_template
 
-from model.post import Post
-from model.comment import Comment
-from errors import register_error_handlers
+from model.user import User
+from model.ad import Ad
 
 
 app = Flask(__name__)
 
-register_error_handlers(app)
 
-
-@app.route("/api/posts", methods = ["POST"])
-def create_post():
-    post_data = request.get_json(force=True, silent=True)
-    if post_data == None:
+@app.route("/users", methods = ["POST"])
+def create_user():
+    user_data = request.get_json(force=True, silent=True)
+    if user_data == None:
         return "Bad request", 400
-    post = Post(post_data["title"], post_data["content"])
-    post.save()
-    return json.dumps(post.to_dict()), 201
+    user = User(user_data["user_id"], user_data["email"], user_data["password"],  user_data["name"], user_data["address"], user_data["phone_number"])
+    user.save()
+    return json.dumps(user.to_dict()), 201
 
 
-@app.route("/api/posts", methods = ["GET"])
-def list_posts():
-    result = {"result": []}
-    for post in Post.all():
-        result["result"].append(post.to_dict())
-    return json.dumps(result)
+@app.route("/users/<user_id>", methods = ["GET"])
+def find_user(user_id):
+    return json.dumps(User.find_by_id(user_id).to_dict())
 
 
-@app.route("/api/posts/<post_id>", methods = ["GET"])
-def get_post(post_id):
-    return json.dumps(Post.find(post_id).to_dict())
+@app.route("/users", methods = ["GET"])
+def get_all_users():
+    all_users = {"all": []}
+    for user in User.get_all():
+        all_users["all"].append(user.to_dict())
+    return json.dumps(all_users)
 
 
-@app.route("/api/posts/<post_id>", methods = ["DELETE"])
-def delete_post(post_id):
-    Post.delete(post_id)
-    return ""
-
-
-@app.route("/api/posts/<post_id>", methods = ["PATCH"])
-def update_post(post_id):
-    post_data = request.get_json(force=True, silent=True)
-    if post_data == None:
+@app.route("/users/<user_id>", methods = ["PATCH"])
+def change_user_info(user_id):
+    user_data = request.get_json(forse=True, silent=True)
+    if user_data == None:
         return "Bad request", 400
 
-    post = Post.find(post_id)
-    if "title" in post_data:
-        post.title = post_data["title"]
-    if "content" in post_data:
-        post.content = post_data["content"]
-    return json.dumps(post.save().to_dict())
+    user = User.find_by_id(user_id)
 
-@app.route("/api/comments", methods=["POST"])
-def create_comment():
-    comment_data = request.get_json(force=True, silent=True)
-    if comment_data == None:
-        return "Bad request", 400
-    comment = Comment(comment_data["content"], comment_data["post_id"])
-    comment.save()
-    return json.dumps(comment.to_dict()), 201
+    if "name" in user_data:
+        user.name = user_data["name"]
+    
+    if "address" in user_data:
+        user.address = user_data["address"]
+
+    if "phone_number" in user_data:
+        user.phone_number = user_data["phone_number"]
+    
+    return json.dumps(user.save().to_dict())
 
 
-@app.route("/", methods = ["GET"])
-def posts():
-    return render_template("index.html")
+@app.route("/users/<user_id>", methods = ["DELETE"])
+def delete_user(user_id):
+    User.delete(user_id)
+    return "" 
+          
 
-
-@app.route("/posts/<post_id>", methods = ["GET"])
-def view_post(post_id):
-    return render_template("post.html", post=Post.find(post_i
-
-
+          
 if __name__ == "__main__":
     app.run()
 
