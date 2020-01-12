@@ -8,7 +8,7 @@ conn = sqlite.connect(DB_NAME)
 conn.cursor().execute('''
 CREATE TABLE IF NOT EXISTS user
     (
-        user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
         email TEXT NOT NULL,
         password TEXT NOT NULL, 
         name TEXT NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS user
 conn.cursor().execute('''
 CREATE TABLE IF NOT EXISTS ad
     {   
-        ad_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT NOT NULL,
         desctiption TEXT,
         price REAL,
