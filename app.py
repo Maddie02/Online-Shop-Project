@@ -29,6 +29,9 @@ def create_user():
 def find_user(id):
     return json.dumps(User.find_by_id(id).to_dict())
 
+@app.route("/users/<name>", methods = ["GET"])
+def find_by_username(name):
+    return json.dumps(User.find_by_name(name).to_dict())
 
 @app.route("/users", methods = ["GET"])
 def get_all_users():
