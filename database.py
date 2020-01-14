@@ -8,7 +8,7 @@ conn = sqlite.connect(DB_NAME)
 conn.cursor().execute('''
 CREATE TABLE IF NOT EXISTS user
     (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id INTEGER PRIMARY KEY AUTOINCREMENT, 
         email TEXT NOT NULL,
         password TEXT NOT NULL, 
         name TEXT NOT NULL,
