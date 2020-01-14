@@ -12,6 +12,7 @@ class User(object):
 
     def to_dict(self):
         user_data = self.__dict__
+        #del user_data["password"]
         return user_data 
 
     def save(self):
@@ -24,6 +25,12 @@ class User(object):
                 values = (self.id, self.email, self.password, self.name, self.address, self.phone_number)
                 db.execute("REPLACE INTO user (id, email, password, name, address, phone_number) VALUES (?, ?, ?, ?, ?, ?)", values)
                 return self
+    
+    @staticmethod
+    def find_by_name(name):
+        with SQLite() as db:
+            result = db.execute("SELECT * FROM user WHERE name = ?", (name, )).fetchone()
+            return User(*result)
 
     @staticmethod
     def find_by_id(id):
