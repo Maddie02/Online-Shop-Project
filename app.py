@@ -20,14 +20,14 @@ def create_user():
     user_data = request.get_json(force=True, silent=True)
     if user_data == None:
         return "Bad request", 400
-    user = User(user_data["id"], user_data["email"], user_data["password"], user_data["name"], user_data["address"], user_data["phone_number"])
+    user = User(user_data["id"], user_data["email"], user_data["password"], user_data["name"], user_data["address"], user_data["phone_number"]) 
     user.save()
     return json.dumps(user.to_dict()), 201
 
 
-@app.route("/users/<user_id>", methods = ["GET"])
-def find_user(user_id):
-    return json.dumps(User.find_by_id(user_id).to_dict())
+@app.route("/users/<int:id>", methods = ["GET"])
+def find_user(id):
+    return json.dumps(User.find_by_id(id).to_dict())
 
 
 @app.route("/users", methods = ["GET"])
@@ -38,13 +38,13 @@ def get_all_users():
     return json.dumps(all_users)
 
 
-@app.route("/users/<user_id>", methods = ["PATCH"])
-def change_user_info(user_id):
+@app.route("/users/<int:id>", methods = ["PATCH"])
+def change_user_info(id):
     user_data = request.get_json(force=True, silent=True)
     if user_data == None:
         return "Bad request", 400
 
-    user = User.find_by_id(user_id)
+    user = User.find_by_id(id)
 
     if "name" in user_data:
         user.name = user_data["name"]
@@ -58,9 +58,9 @@ def change_user_info(user_id):
     return json.dumps(user.save().to_dict())
 
 
-@app.route("/users/<user_id>", methods = ["DELETE"])
-def delete_user(user_id):
-    User.delete(user_id)
+@app.route("/users/<int:id>", methods = ["DELETE"])
+def delete_user(id):
+    User.delete(id)
     return "" 
           
           
