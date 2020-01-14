@@ -8,16 +8,19 @@ from flask import render_template
 from model.user import User
 from model.ad import Ad
 
-
 app = Flask(__name__)
 
+
+@app.route("/", methods = ["GET"])
+def shop():
+    return render_template("index.html")
 
 @app.route("/users", methods = ["POST"])
 def create_user():
     user_data = request.get_json(force=True, silent=True)
     if user_data == None:
         return "Bad request", 400
-    user = User(user_data["user_id"], user_data["email"], user_data["password"],  user_data["name"], user_data["address"], user_data["phone_number"])
+    user = User(user_data["id"], user_data["email"], user_data["password"], user_data["name"], user_data["address"], user_data["phone_number"])
     user.save()
     return json.dumps(user.to_dict()), 201
 
@@ -37,7 +40,7 @@ def get_all_users():
 
 @app.route("/users/<user_id>", methods = ["PATCH"])
 def change_user_info(user_id):
-    user_data = request.get_json(forse=True, silent=True)
+    user_data = request.get_json(force=True, silent=True)
     if user_data == None:
         return "Bad request", 400
 
@@ -60,7 +63,6 @@ def delete_user(user_id):
     User.delete(user_id)
     return "" 
           
-
           
 if __name__ == "__main__":
     app.run()
