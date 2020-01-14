@@ -2,8 +2,8 @@ from database import SQLite
 
 class User(object):
     
-    def __init__(self, email, password, name, address, phone_number, user_id = None):
-        self.id = user_id
+    def __init__(self, id, email, password, name, address, phone_number):
+        self.id = id
         self.email = email
         self.password = password
         self.name = name
@@ -16,17 +16,15 @@ class User(object):
 
     def save(self):
         with SQLite() as db:
-            values = (self.id, self.email, self.password, self.name, self.address, self.phone_number)
-            db.execute("INSERT INTO user (id, email, password, name, address, phone_number) VALUES (?, ?, ?, ?, ?, ?)", values)
+            values = (self.email, self.password, self.name, self.address, self.phone_number)
+            db.execute("INSERT INTO user (email, password, name, address, phone_number) VALUES (?, ?, ?, ?, ?)", values)
             return self
 
     @staticmethod
-    def find_by_id(user_id):
-        result = None
+    def find_by_id(id):
         with SQLite() as db:
-            result = db.execute("SELECT email, password, name, address, phone_number FROM user WHERE id = ?", (user_id, ))
-        user = result.fetchone()
-        return User(*user)
+            result = db.execute("SELECT * FROM user WHERE id = ?", (id, )).fetchone()
+            return User(*result)
 
     @staticmethod
     def get_all():
@@ -36,9 +34,9 @@ class User(object):
             return [User(*row) for row in result]
     
     @staticmethod
-    def delete(user_id):
+    def delete(id):
         result = None
         with SQLite() as db:
-            result = db.execute("DELETE FROM user WHERE id = ?", (user_id, ))
+            result = db.execute("DELETE FROM user WHERE id = ?", (id, ))
     
      
