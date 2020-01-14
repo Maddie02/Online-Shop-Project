@@ -16,9 +16,14 @@ class User(object):
 
     def save(self):
         with SQLite() as db:
-            values = (self.email, self.password, self.name, self.address, self.phone_number)
-            db.execute("INSERT INTO user (email, password, name, address, phone_number) VALUES (?, ?, ?, ?, ?)", values)
-            return self
+            if self.id == None: 
+                values = (self.email, self.password, self.name, self.address, self.phone_number)
+                db.execute("INSERT INTO user (email, password, name, address, phone_number) VALUES (?, ?, ?, ?, ?)", values)
+                return self
+            else:
+                values = (self.id, self.email, self.password, self.name, self.address, self.phone_number)
+                db.execute("REPLACE INTO user (id, email, password, name, address, phone_number) VALUES (?, ?, ?, ?, ?, ?)", values)
+                return self
 
     @staticmethod
     def find_by_id(id):
