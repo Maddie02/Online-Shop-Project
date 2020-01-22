@@ -17,9 +17,14 @@ class Ad(object):
    
     def save(self):
         with SQLite() as db:
-            values = (self.title, self.description, self.price, self.date, self.is_active, self.owner_id)
-            db.execute("INSERT INTO ad (title, description, price, date, is_active, owner_id) VALUES (?, ?, ?, ?, ?, ?)", values)
-            return self
+            if self.id == None:
+                values = (self.title, self.description, self.price, self.date, self.is_active, self.owner_id)
+                db.execute("INSERT INTO ad (title, description, price, date, is_active, owner_id) VALUES (?, ?, ?, ?, ?, ?)", values)
+                return self
+            else:
+                values = (self.id, self.title, self.description, self.price, self.date, self.is_active, self.owner_id)
+                db.execute("REPLACE INTO ad (id, title, description, price, date, is_active, owner_id) VALUES (?, ?, ?, ?, ?, ?, ?)", values)
+                return self
 
     @staticmethod
     def get_all():
