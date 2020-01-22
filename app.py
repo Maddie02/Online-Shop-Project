@@ -86,6 +86,29 @@ def get_all_ads():
 def find_ad(id):
     return json.dumps(Ad.find_by_id(id).to_dict())
 
+@app.route("/ads/<id>", methods = ["PATCH"])
+def change_ad_info(id):
+    ad_data = request.get_json(force=True, silent=True)
+    if ad_data == None:
+        return "Bad request", 400
+
+    ad = Ad.find_by_id(id)
+
+    if "title" in ad_data:
+        ad.title = ad_data["title"]
+    
+    if "description" in ad_data:
+        ad.description = ad_data["description"]
+
+    if "price" in ad_data:
+        ad.price = ad_data["price"]
+    
+    if "date" in ad_data:
+        ad.date = ad_data["date"]
+    
+    return json.dumps(ad.save().to_dict())
+
+
 if __name__ == "__main__":
     app.run()
 
