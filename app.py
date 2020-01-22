@@ -63,7 +63,7 @@ def change_user_info(id):
 @app.route("/users/<int:id>", methods = ["DELETE"])
 def delete_user(id):
     User.delete(id)
-    return "" 
+    return "Deleted succesfully" 
 
 @app.route("/ads", methods = ["POST"])
 def create_ad():
@@ -107,6 +107,11 @@ def change_ad_info(id):
         ad.date = ad_data["date"]
     
     return json.dumps(ad.save().to_dict())
+
+@app.route("/ads/<owner_id>", methods = ["DELETE"])
+def delete_ad(owner_id):
+    Ad.delete(owner_id)
+    return "Deleted succesfully"
 
 
 if __name__ == "__main__":
