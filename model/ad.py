@@ -39,6 +39,12 @@ class Ad(object):
         with SQLite() as db:
             result = db.execute("SELECT * FROM ad WHERE id = ?", (id, )).fetchone()
             return Ad(*result)
+    
+    @staticmethod
+    def get_all_by_owner_id(owner_id):
+        with SQLite() as db:
+            result = db.execute("SELECT * FROM ad WHERE owner_id = ? AND is_active = 0", (owner_id, )).fetchall()
+            return [Ad(*row) for row in result] 
 
     @staticmethod
     def delete(owner_id):
