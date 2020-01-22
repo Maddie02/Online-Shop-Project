@@ -38,3 +38,10 @@ class Ad(object):
         with SQLite() as db:
             result = db.execute("SELECT * FROM ad WHERE id = ?", (id, )).fetchone()
             return Ad(*result)
+
+    @staticmethod
+    def delete(owner_id):
+        result = None
+        with SQLite() as db:
+            result = db.execute("DELETE FROM ad WHERE owner_id = ?", (owner_id, ))
+    
