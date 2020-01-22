@@ -64,8 +64,17 @@ def change_user_info(id):
 def delete_user(id):
     User.delete(id)
     return "" 
-          
-          
+
+@app.route("/ads", methods = ["POST"])
+def create_ad():
+    ad_data = request.get_json(force=True, silent=True)
+    if ad_data == None:
+        print(ad_data)
+        return "Bad request", 400
+    ad = Ad(ad_data["id"], ad_data["title"], ad_data["description"], ad_data["price"], ad_data["date"], ad_data["is_active"], ad_data["owner_id"]) 
+    ad.save()
+    return json.dumps(ad.to_dict()), 201
+
 if __name__ == "__main__":
     app.run()
 
