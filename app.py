@@ -34,9 +34,9 @@ def find_by_username(name):
 
 @app.route("/users", methods = ["GET"])
 def get_all_users():
-    all_users = {"all": []}
+    all_users = {"All users": []}
     for user in User.get_all():
-        all_users["all"].append(user.to_dict())
+        all_users["All users"].append(user.to_dict())
     return json.dumps(all_users)
 
 
@@ -75,6 +75,13 @@ def create_ad():
     ad.save()
     return json.dumps(ad.to_dict()), 201
 
+@app.route("/ads", methods = ["GET"])
+def get_all_ads():
+    all_ads = {"All ads": []}
+    for ad in Ad.get_all():
+        all_ads["All ads"].append(ad.to_dict())
+    return json.dumps(all_ads)
+    
 if __name__ == "__main__":
     app.run()
 
