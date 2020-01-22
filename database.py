@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS ad
         date TEXT NOT NULL,
         is_active INTEGER,
         owner_id INTEGER,
+        buyer_id INTEGER,
         FOREIGN KEY(owner_id) REFERENCES user(id)
     )
 ''')
