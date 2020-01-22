@@ -116,9 +116,19 @@ def delete_ad(owner_id):
 @app.route("/ads/buy/<user_id>/<id>", methods = ["GET"])
 def buy_item(user_id, id):
     ad = Ad.find_by_id(id)
-    ad.is_active = 0
+    if ad.is_active == 1:
+        ad.is_active = 0
+    else:
+        return "Another user bought this item!"
     ad.buyer_id = user_id
     return json.dumps(ad.save().to_dict())
+
+@app.route("/ads/inventory/<id>", methods = ["GET"])
+def owner_inventory(id):
+    inventory = {"ALL ADS": []}
+    for ads in Ad.get_all_by_owner_id(id):
+        inventory["ALL ADS"].append(ads.to_dict())
+    return json.dumps(inventory)
 
 if __name__ == "__main__":
     app.run()
