@@ -81,7 +81,11 @@ def get_all_ads():
     for ad in Ad.get_all():
         all_ads["All ads"].append(ad.to_dict())
     return json.dumps(all_ads)
-    
+
+@app.route("/ads/<id>", methods = ["GET"])
+def find_ad(id):
+    return json.dumps(Ad.find_by_id(id).to_dict())
+
 if __name__ == "__main__":
     app.run()
 
