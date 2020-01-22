@@ -22,13 +22,12 @@ CREATE TABLE IF NOT EXISTS ad
     ( 
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT NOT NULL,
-        desctiption TEXT,
+        description TEXT NOT NULL,
         price REAL,
-        date TEXT,
+        date TEXT NOT NULL,
         is_active INTEGER,
-        owner TEXT,
-        user_id INTEGER,
-        FOREIGN KEY(user_id) REFERENCES user(id)
+        owner_id INTEGER,
+        FOREIGN KEY(owner_id) REFERENCES user(id)
     )
 ''')
 
@@ -36,7 +35,6 @@ conn.commit()
 
 
 class SQLite(object):
-
     def __enter__(self):
         self.conn = sqlite.connect(DB_NAME)
         return self.conn.cursor()
