@@ -28,3 +28,8 @@ class Ad(object):
             result = db.execute("SELECT * FROM ad").fetchall()
             return [Ad(*row) for row in result]
     
+    @staticmethod
+    def find_by_id(id):
+        with SQLite() as db:
+            result = db.execute("SELECT * FROM ad WHERE id = ?", (id, )).fetchone()
+            return Ad(*result)
