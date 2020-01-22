@@ -117,7 +117,7 @@ def delete_ad(owner_id):
 def buy_item(user_id, id):
     ad = Ad.find_by_id(id)
     ad.is_active = 0
-    ad.owner_id = user_id
+    ad.buyer_id = user_id
     return json.dumps(ad.save().to_dict())
 
 if __name__ == "__main__":
