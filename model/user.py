@@ -1,5 +1,7 @@
 from database import SQLite
 
+from errors import ApplicationError
+
 class User(object):
     
     def __init__(self, id, email, password, name, address, phone_number):
@@ -37,6 +39,16 @@ class User(object):
         with SQLite() as db:
             result = db.execute("SELECT * FROM user WHERE id = ?", (id, )).fetchone()
             return User(*result)
+
+    @staticmethod
+    def find_by_email(email):
+        result = None
+        with SQLite() as db:
+            result = db.execute("SELECT * FROM user WHERE email = ?", (email, ))
+        user = result.fetchone()
+        if user is None:
+            raise ApplicationError("User with email {} not found".format(email), 404)
+        return User(*user)
 
     @staticmethod
     def get_all():
