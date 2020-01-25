@@ -7,10 +7,14 @@ from flask import render_template
 from model.user import User
 from model.ad import Ad
 
-app = Flask(__name__)
+from security.basic_authentication import generate_password_hash
+from security.basic_authentication import init_basic_auth
 
+app = Flask(__name__)
+auth = init_basic_auth()
 
 @app.route("/", methods = ["GET"])
+@auth.login_required
 def shop():
     return render_template("index.html")
 
@@ -19,7 +23,8 @@ def create_user():
     user_data = request.get_json(force=True, silent=True)
     if user_data == None:
         return "Bad request", 400
-    user = User(user_data["id"], user_data["email"], user_data["password"], user_data["name"], user_data["address"], user_data["phone_number"]) 
+    hashed_password = generate_password_hash(user_data["password"])
+    user = User(user_data["id"], user_data["email"], hashed_password, user_data["name"], user_data["address"], user_data["phone_number"]) 
     user.save()
     return json.dumps(user.to_dict()), 201
 
