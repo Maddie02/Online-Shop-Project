@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ads</title>
+</head>
+<body>
+    <a href="/">Home</a>
+    <h1>Ads</h1>
+    {% for ad in ads %}
+    <a href="/ads/{{ ad.id }}"><strong>Title:</strong> {{ ad.title }} | Price: {{ ad.price }}</a>
+    <br/>
+    {% endfor %}
+</body>
+</html>
