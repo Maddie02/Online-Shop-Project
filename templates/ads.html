@@ -15,6 +15,8 @@
 </head>
 <body>
     <a href="/">Home</a>
+    <br>
+    <a href="/ads/new">Create new ad!</a>
     <h1>Ads</h1>
     {% for ad in ads %}
     <a href="/ads/{{ ad.id }}"><strong>ID: </strong> {{ ad.id }} <strong>Title:</strong> {{ ad.title }} | Price: {{ ad.price }} | Active: {{ ad.is_active }}</a>
