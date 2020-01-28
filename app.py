@@ -3,7 +3,7 @@ import json
 from flask import Flask
 from flask import request
 from flask import render_template
-
+from flask import redirect
 from model.user import User
 from model.ad import Ad
 
@@ -77,7 +77,7 @@ def show_ad(id):
     return render_template("ad.html", ad = ad)
 
 @app.route("/ads", methods = ["POST"])
-def create_ad():
+def create_ad_postman():
     ad_data = request.get_json(force=True, silent=True)
     if ad_data == None:
         print(ad_data)
@@ -86,23 +86,27 @@ def create_ad():
     ad.save()
     return json.dumps(ad.to_dict()), 201
 
+@app.route("/ads/new", methods = ["POST"])
+def create_ad():
+    values = (request.form['id'], request.form['title'], request.form['description'], request.form['price'], request.form['date'], request.form['is_active'], request.form['owner_id'])
+    Ad(*values).save()
+
+    return redirect("/ads")
+
 @app.route("/ads")
 def list_ads():
     return render_template("ads.html", ads = Ad.get_all())
 
-@app.route("/ads", methods = ["GET"])
-def get_all_ads():
-    all_ads = {"All ads": []}
-    for ad in Ad.get_all():
-        all_ads["All ads"].append(ad.to_dict())
-    return json.dumps(all_ads)
+@app.route("/ads/new", methods = ["GET"])
+def new_ad():
+    return render_template("new_ad.html", ads = Ad.get_all())
 
 @app.route("/ads/<id>", methods = ["GET"])
 def find_ad(id):
     return json.dumps(Ad.find_by_id(id).to_dict())
 
 @app.route("/ads/<id>", methods = ["PATCH"])
-@auth.login_required
+
 def change_ad_info(id):
     ad_data = request.get_json(force=True, silent=True)
     if ad_data == None:
