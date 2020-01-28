@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Ad</title>
+    <title>{{ ad.title }}</title>
 </head>
 <body>
     <a href="/">Home</a>
@@ -17,7 +17,8 @@
         <p>1 - is active; 0 - is not active</p>
         <hr>
         <h4>Date created: {{ ad.date }}</h4>
-        <h4>Owner's id: {{ ad.owner_id }}</h4>
+        <h4>Owner id: {{ ad.owner_id }}</h4>
+        <h4>Buyer id: {{ ad.buyer_id }}</h4>
     </div>
 </body>
 </html>
