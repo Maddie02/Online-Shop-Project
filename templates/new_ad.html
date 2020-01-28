@@ -1,0 +1,53 @@
+<head>
+    <title>Create new ad</title>
+    <style>
+        div {
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            padding: 20px;
+            margin-left: 10px;
+            margin-right: 10px; 
+        }
+        input {
+            width: 100%;
+            margin: 10px 0px;
+            padding: 5px 0px;
+            box-sizing: content-box;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="/">Home</a>
+    <br>
+    <a href="/ads">Return to all ads</a>
+
+    <h1>Create a new ad</h1>
+
+    <div>
+        <form action="/ads/new" method="POST">
+            <label>ID</label>
+            <input name="id"/>
+            <br>
+            <label>Title</label>
+            <input name="title"/>
+            </br>
+            <label>Description</label>
+            <input name="description"/>
+            </br>
+            <label>Price</label>
+            <input name="price"/>
+            </br>
+            <label>Date</label>
+            <input name="date"/>
+            </br>
+            <label>Is Active</label>
+            <input name="is_active"/>
+            </br>
+            <label>Owner ID</label>
+            <input name="owner_id"/>
+            </br>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
