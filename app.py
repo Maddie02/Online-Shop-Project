@@ -70,6 +70,12 @@ def delete_user(id):
     User.delete(id)
     return "Deleted succesfully" 
 
+@app.route("/ads/<id>")
+def show_ad(id):
+    ad = Ad.find_by_id(id)
+
+    return render_template("ad.html", ad = ad)
+
 @app.route("/ads", methods = ["POST"])
 def create_ad():
     ad_data = request.get_json(force=True, silent=True)
@@ -79,6 +85,10 @@ def create_ad():
     ad = Ad(ad_data["id"], ad_data["title"], ad_data["description"], ad_data["price"], ad_data["date"], ad_data["is_active"], ad_data["owner_id"]) 
     ad.save()
     return json.dumps(ad.to_dict()), 201
+
+@app.route("/ads")
+def list_ads():
+    return render_template("ads.html", ads = Ad.get_all())
 
 @app.route("/ads", methods = ["GET"])
 def get_all_ads():
@@ -92,6 +102,7 @@ def find_ad(id):
     return json.dumps(Ad.find_by_id(id).to_dict())
 
 @app.route("/ads/<id>", methods = ["PATCH"])
+@auth.login_required
 def change_ad_info(id):
     ad_data = request.get_json(force=True, silent=True)
     if ad_data == None:
