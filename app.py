@@ -4,6 +4,7 @@ from flask import Flask
 from flask import request
 from flask import render_template
 from flask import redirect
+
 from model.user import User
 from model.ad import Ad
 
@@ -106,7 +107,7 @@ def find_ad(id):
     return json.dumps(Ad.find_by_id(id).to_dict())
 
 @app.route("/ads/<id>", methods = ["PATCH"])
-
+#@auth.login_required - function can't be accessed from postman
 def change_ad_info(id):
     ad_data = request.get_json(force=True, silent=True)
     if ad_data == None:
@@ -129,6 +130,7 @@ def change_ad_info(id):
     return json.dumps(ad.save().to_dict())
 
 @app.route("/ads/<owner_id>", methods = ["DELETE"])
+#@auth.login_required - function can't be accessed from postman
 def delete_ad(owner_id):
     Ad.delete(owner_id)
     return "Deleted succesfully"
