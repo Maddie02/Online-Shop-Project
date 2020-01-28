@@ -3,13 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Ads</title>
+    <style>
+        a {
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <a href="/">Home</a>
     <h1>Ads</h1>
     {% for ad in ads %}
-    <a href="/ads/{{ ad.id }}"><strong>Title:</strong> {{ ad.title }} | Price: {{ ad.price }}</a>
-    <br/>
+    <a href="/ads/{{ ad.id }}"><strong>ID: </strong> {{ ad.id }} <strong>Title:</strong> {{ ad.title }} | Price: {{ ad.price }} | Active: {{ ad.is_active }}</a>
+    <hr>
     {% endfor %}
 </body>
 </html>
